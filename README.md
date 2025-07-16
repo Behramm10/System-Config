@@ -1,102 +1,170 @@
-System Config Extractor Tool 
+# 🖥️ System Config Extractor Tool
 
-Overview
-The System Config Extractor is a Python-based desktop application designed to collect essential system configuration details. This tool gathers information about the system's hardware (e.g., processor, RAM, storage, graphics), the current user, Windows specifications, and installed software. It then saves this data into a text file for easy access and review.
-The app has been packaged into a Python launcher application for a smoother user experience, allowing users to run it without requiring the Python environment to be explicitly set up.
+The **System Config Extractor** is a lightweight Python-based desktop application designed to collect and report essential system configuration details on Windows. It gathers information about your system’s hardware (CPU, RAM, storage, graphics), user details, Windows specifications, and a list of installed software, saving all of this in a convenient text file.
 
-Creating the Python Launcher (EXE File)
-To make the System Config Extractor a standalone executable (EXE) that runs without requiring Python to be installed on the user’s system, follow these steps:
-1. Install PyInstaller
-PyInstaller is a tool that bundles a Python application and all its dependencies into a single executable file.
+🧩 The tool has been packaged into a standalone executable using PyInstaller, allowing users to run it without having Python installed.
+
+---
+
+## 📦 Features
+
+- 🧠 **Automatic system data extraction** on launch
+- 🖥️ Collects:
+  - Processor details
+  - RAM size
+  - Storage partition info
+  - Installed graphics cards
+  - Windows OS edition, version, and build
+  - List of installed software
+- 👤 Detects current user
+- 📄 Saves output as a structured `system_info.txt` file
+- 🗂️ Clean and minimal UI-free experience
+- 🪟 Packaged into a Windows `.exe` for portability
+
+---
+
+## 🛠️ How to Build the Executable (Python Launcher)
+
+You can package this app into a standalone `.exe` using **PyInstaller**:
+
+### 1. Install PyInstaller
+
+```bash
 pip install pyinstaller
-2. Organize Your Project Folder
-Make sure your project folder looks like this:
+````
+
+### 2. Project Folder Structure
+
+Make sure your folder looks like this:
+
+```
 SystemConfigExtractor/
 ├── system_config_extractor.py
 ├── requirements.txt
-Ensure that your main script file (e.g., system_config_extractor.py) contains a main() function or a check like:
+```
+
+Ensure your main Python script (`system_config_extractor.py`) includes the following:
+
+```python
 if __name__ == "__main__":
     save_to_txt()
-   
-4. Build the Executable
-Use the following command inside the project folder:
-pyinstaller --onefile --noconsole system_config_extractor.py
---onefile: Packages everything into a single EXE.
---noconsole: (Optional) Hides the console window. Use this only if your script doesn't need to show output.
+```
 
-5. Locate the Executable
-After running the above command, PyInstaller will generate several folders:
+### 3. Build the Executable
+
+Run the following command inside the project folder:
+
+```bash
+pyinstaller --onefile --noconsole system_config_extractor.py
+```
+
+* `--onefile`: Packages everything into a single `.exe`
+* `--noconsole`: Hides the terminal window (optional for non-GUI apps)
+
+### 4. Locate the Executable
+
+After the build, PyInstaller creates:
+
+```
 dist/
 └── system_config_extractor.exe
 build/
 system_config_extractor.spec
+```
 
-Your standalone EXE file will be located inside the dist/ folder.
-5. Distribute the App
-You can now share system_config_extractor.exe with users. They don’t need Python installed to run it — just double-click and it will generate the system_info.txt file.
-Test the executable on another machine (without Python installed) to ensure it runs correctly.
+The final executable is in the `dist/` folder.
 
-How to Use the Launcher App
-Launch the Application:
-Windows: Double-click the System_Config.exe file associated with the launcher. If packaged correctly, it will run the app without needing to interact with the Python interpreter directly.
+### 5. Distribute the App
 
-Extract System Information:
-Upon launching, the app automatically gathers system details and stores them in a text file named system_info.txt.
+You can now share `system_config_extractor.exe` with users. It runs out-of-the-box on Windows—**no Python installation needed**.
 
-Access the Report:
-After the process completes, the generated system_info.txt file will be saved in the same directory as the application. Open this file to review the extracted system data.
+✅ Test it on another system (without Python) to verify it works as expected.
 
-Output File Example:
- The file will contain the following system details:
-Processor information
-RAM size
-Storage (partition) details
-Installed graphics card(s)
-Windows OS specifications (Edition, Version, Installation Date, OS Build)
-List of installed software
+---
 
-Function Breakdown
-The core functionalities of the tool remain the same, though packaged into a standalone application for simplicity.
-get_processor():
-Retrieves the name of the processor installed on the system.
+## 🚀 How to Use
 
-get_device_name():
-Retrieves the full device name (hostname).
+### 🪟 Launch the App
 
-get_installed_ram():
-Retrieves the total installed RAM size in gigabytes (GB).
+* Double-click `system_config_extractor.exe`
 
-get_storage():
-Collects information about all disk partitions and their respective sizes.
+### 📊 Extract System Information
 
-get_graphics_card():
-Retrieves a list of installed graphics card(s) on the system.
+* The app runs silently and collects system details
 
-get_current_user():
-Returns the current system username.
+### 📁 Access the Report
 
-get_windows_specifications():
-Retrieves the Windows edition, version, installation date, and build number.
+* A text file `system_info.txt` will be saved in the same directory
+* Open this file to view system data
 
-get_installed_software_registry():
-Extracts a list of installed software and their versions from the Windows registry.
+---
 
-save_to_txt():
-This function runs automatically when the app is launched. It calls the other functions, formats the data, and writes it to system_info.txt.
+## 📝 Output File Includes
 
-Error Handling and Logs
-Permission Issues: If the app encounters permission issues (e.g., accessing disk partitions or registry keys), it will skip the problematic sections and proceed with the rest of the data collection.
-Log File: You can modify the app to create a log file (e.g., error_log.txt) if errors occur, for debugging purposes.
+```
+Processor Name
+Device Name
+Installed RAM (GB)
+Storage Partition Info (Size, Free Space)
+Graphics Card(s)
+Current User
+Windows Edition, Version, Build
+Installed Software List (from Registry)
+```
 
-Limitations
-The app is Windows-only and relies on Windows-specific modules (like wmi and winreg).
-Users must have administrator permissions for certain system information retrieval, especially for installed software and registry details.
-The output file may not be created if the app is run in a restricted environment with limited access to the system's hardware or software data.
+---
 
-Future Enhancements
-Cross-Platform Support: Extend the tool to work on Linux and macOS, retrieving system information appropriate for those platforms.
-More Hardware Information: Include additional details like network adapters, system motherboard, and more.
-Improved GUI: Create a fully featured GUI with buttons for saving reports, viewing details in the app, and exporting to different formats (e.g., PDF, CSV).
+## 🔍 Function Overview
 
+| Function                            | Description                                    |
+| ----------------------------------- | ---------------------------------------------- |
+| `get_processor()`                   | Retrieves processor name                       |
+| `get_device_name()`                 | Gets the hostname                              |
+| `get_installed_ram()`               | Returns installed RAM in GB                    |
+| `get_storage()`                     | Fetches partition sizes and free space         |
+| `get_graphics_card()`               | Lists GPU(s) installed                         |
+| `get_current_user()`                | Gets the current username                      |
+| `get_windows_specifications()`      | Returns edition, version, build                |
+| `get_installed_software_registry()` | Reads installed software from Windows registry |
+| `save_to_txt()`                     | Runs all above and writes to `system_info.txt` |
+
+---
+
+## ⚠️ Error Handling & Logs
+
+* ❌ **Permission Issues**: If the tool can't access certain components (like registry or drives), it will skip them and continue.
+* 🪵 **Optional Logging**: You can extend the script to log errors in an `error_log.txt` for debugging.
+
+---
+
+## ⚠️ Limitations
+
+* 🪟 **Windows-only**: Uses Windows-specific modules (`wmi`, `winreg`)
+* 🔐 Some data may require **Administrator privileges**
+* 📁 Output file may not be generated if run in a restricted environment
+
+---
+
+## 🌟 Future Enhancements
+
+* 🌐 **Cross-platform** support (Linux/macOS)
+* 🧬 More hardware info (e.g., motherboard, network adapters)
+* 🖼️ **GUI version** with export options (PDF, CSV)
+* 🔍 Real-time display of data in-app
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 👨‍💻 Author
+
+**Behramm Umrigar**
+GitHub: [@behramm10](https://github.com/behramm10)
+
+---
 
 
