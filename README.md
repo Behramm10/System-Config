@@ -14,7 +14,7 @@ Make sure your project folder looks like this:
 SystemConfigExtractor/
 ├── system_config_extractor.py
 ├── requirements.txt
-⚠️ Ensure that your main script file (e.g., system_config_extractor.py) contains a main() function or a check like:
+Ensure that your main script file (e.g., system_config_extractor.py) contains a main() function or a check like:
 if __name__ == "__main__":
     save_to_txt()
    
